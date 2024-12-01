@@ -5,9 +5,10 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/zalgonoise/advent-2024/cmd/aoc/day01"
 	"log/slog"
 	"os"
+
+	"github.com/zalgonoise/advent-2024/cmd/aoc/day01"
 )
 
 var (
