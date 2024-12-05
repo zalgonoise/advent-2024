@@ -2,6 +2,7 @@ package part02
 
 import (
 	"errors"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -49,17 +50,21 @@ func isSafe(set []int, thresh int) bool {
 
 	switch order {
 	case 1:
-		return isAnySafe(breakdownSet(set), thresh, isSafeAscending)
+		return isAnySafe(breakdownSet(set), thresh)
 	case -1:
-		return isAnySafe(breakdownSet(set), thresh, isSafeDescending)
+		rev := make([]int, len(set))
+		copy(rev, set)
+		slices.Reverse(rev)
+
+		return isAnySafe(breakdownSet(rev), thresh)
 	}
 
 	return false
 }
 
-func isAnySafe(sets [][]int, thresh int, fn func([]int, int) bool) bool {
+func isAnySafe(sets [][]int, thresh int) bool {
 	for i := range sets {
-		if fn(sets[i], thresh) {
+		if isSafeAscending(sets[i], thresh) {
 			return true
 		}
 	}
@@ -74,20 +79,6 @@ func isSafeAscending(set []int, thresh int) bool {
 		}
 
 		if set[i]-set[i-1] > thresh {
-			return false
-		}
-	}
-
-	return true
-}
-
-func isSafeDescending(set []int, thresh int) bool {
-	for i := 1; i < len(set); i++ {
-		if set[i] > set[i-1] {
-			return false
-		}
-
-		if set[i-1]-set[i] > thresh {
 			return false
 		}
 	}
@@ -110,66 +101,6 @@ func breakdownSet(set []int) [][]int {
 
 	return sets
 }
-
-//func isSafeAscending(set []int, thresh int) bool {
-//	var skipped bool
-//	var prev = set[0]
-//
-//	for i := 1; i < len(set); i++ {
-//		switch {
-//		case set[i] <= prev:
-//			if skipped {
-//				return false
-//			}
-//
-//			skipped = true
-//		case set[i]-prev > thresh:
-//			if skipped {
-//				return false
-//			}
-//
-//			skipped = true
-//
-//			if prev == set[0] {
-//				prev = set[i]
-//			}
-//		default:
-//			prev = set[i]
-//		}
-//	}
-//
-//	return true
-//}
-
-//func isSafeDescending(set []int, thresh int) bool {
-//	var skipped bool
-//	var prev = set[0]
-//
-//	for i := 1; i < len(set); i++ {
-//		switch {
-//		case set[i] >= prev:
-//			if skipped {
-//				return false
-//			}
-//
-//			skipped = true
-//		case prev-set[i] > thresh:
-//			if skipped {
-//				return false
-//			}
-//
-//			skipped = true
-//
-//			if prev == set[0] {
-//				prev = set[i]
-//			}
-//		default:
-//			prev = set[i]
-//		}
-//	}
-//
-//	return true
-//}
 
 func getOrder(set []int) (int, bool) {
 	var (
