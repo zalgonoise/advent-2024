@@ -9,6 +9,11 @@ import (
 	"os"
 
 	"github.com/zalgonoise/advent-2024/cmd/aoc/day01"
+	"github.com/zalgonoise/advent-2024/cmd/aoc/day02"
+	"github.com/zalgonoise/advent-2024/cmd/aoc/day03"
+	"github.com/zalgonoise/advent-2024/cmd/aoc/day04"
+	"github.com/zalgonoise/advent-2024/cmd/aoc/day05"
+	"github.com/zalgonoise/advent-2024/cmd/aoc/day06"
 )
 
 var (
@@ -46,6 +51,16 @@ func run(logger *slog.Logger) (int, error) {
 	switch *day {
 	case 1:
 		return day01.Exec(ctx, logger, os.Args[3:])
+	case 2:
+		return day02.Exec(ctx, logger, os.Args[3:])
+	case 3:
+		return day03.Exec(ctx, logger, os.Args[3:])
+	case 4:
+		return day04.Exec(ctx, logger, os.Args[3:])
+	case 5:
+		return day05.Exec(ctx, logger, os.Args[3:])
+	case 6:
+		return day06.Exec(ctx, logger, os.Args[3:])
 	default:
 		return 1, fmt.Errorf("%w: %d", errUnsupportedDay, *day)
 	}
